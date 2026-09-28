@@ -1,2 +1,4 @@
 .dos/
 node_modules/
+dist/
+.vscode/
