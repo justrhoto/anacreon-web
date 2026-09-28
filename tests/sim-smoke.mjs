@@ -14,7 +14,7 @@ import { NextEmpire } from '../src/engine/primintr.js';
 
 const file = process.argv[2] || 'INTRO.SCN';
 const years = +(process.argv[3] || 10);
-const text = decodeCP437(fs.readFileSync('public/assets/scenarios/' + file));
+const text = decodeCP437(fs.readFileSync('public/data/scenarios/' + file));
 const h = ParseScenarioHeader(text);
 console.log(h.title, 'v' + h.version, 'players', h.minPlay, '-', h.maxPlay, 'size', h.size, 'planets', h.planets);
 const players = []; for (let i = 0; i < h.minPlay; i++) players.push({ name: 'Testia' + i, password: '', isEmpress: false });

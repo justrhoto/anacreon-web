@@ -9,7 +9,7 @@ import { env } from '../src/engine/env.js';
 import { G, Universe, Pln, Flt, fgt, jmp, trn, men } from '../src/engine/types.js';
 import { rng } from '../src/runtime/pascal.js';
 
-for (const f of fs.readdirSync('public/assets/scenarios')) vfs.addBase(f, decodeCP437(fs.readFileSync('public/assets/scenarios/' + f)));
+for (const f of fs.readdirSync('public/data/scenarios')) vfs.addBase(f, decodeCP437(fs.readFileSync('public/data/scenarios/' + f)));
 rng.seed = 12345;
 const list = game.listScenarios();
 console.log('scenarios:', list.map((s) => s.file + '(' + s.title + ')').join(', '));
@@ -31,12 +31,13 @@ let target = null, best = 99;
 const capXY = views.worldView(env.Player, cap).xy;
 for (let x = 1; x <= map.size; x++) for (let y = 1; y <= map.size; y++) {
   const c = map.cells[x][y];
-  if (c.obj && c.obj.kind === 'planet' && !c.obj.mine) { const d = Math.max(Math.abs(x - capXY.x), Math.abs(y - capXY.y)); if (d < best) { best = d; target = c.obj; } }
+  // known foreign planets, or unexplored star systems (the fleet will scout them on arrival)
+  if (c.obj && (c.obj.kind === 'planet' || c.obj.kind === 'unknown') && !c.obj.mine) { const d = Math.max(Math.abs(x - capXY.x), Math.abs(y - capXY.y)); if (d < best) { best = d; target = { x, y }; } }
 }
-console.log('target', target && views.worldView(env.Player, target.id).name, 'dist', best);
+console.log('target', target, 'dist', best);
 const s = cmd.launchSession(cap);
 console.log('fill fgt', s.fill(fgt), 'fill jmp', s.fill(jmp), 'trn', s.change(trn, 100), 'men', s.change(men, 400));
-const tXY = views.worldView(env.Player, target.id).xy;
+const tXY = target;
 const lr = cmd.launchFleet('Alpha', cap, tXY, s);
 console.log('launch', lr);
 console.log('fleets', views.fleetList(env.Player).map((f) => f.shortName + ' ' + f.status + ' ' + f.range));
