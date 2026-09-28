@@ -4,6 +4,8 @@ A native browser port of the DOS strategy game Anacreon (TMA / George Moromisato
 
 The game engine is a faithful hand translation of the original Turbo Pascal source into JavaScript. It covers the economy, fleets, combat, NPE (computer empire) AI, scenarios, news and messages. The DOS text-mode interface has been replaced with a browser-native UI: a zoomable galaxy map, a selection panel with context actions, list tabs and dialogs for every command.
 
+**Play it now:** the port is fully playable in your browser at **https://justrhoto.github.io/anacreon-web/**. You don't need to install anything.
+
 ## Running
 
 ```
